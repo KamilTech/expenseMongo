@@ -1,0 +1,36 @@
+.button {
+  background: #00a881;
+  border: none;
+  color: white;
+  display: inline-block;
+  font-size: 1.8rem;
+  font-weight: 300;
+  line-height: 1;
+  border-radius: 25px;
+  padding: 15px 25px 15px;
+  text-decoration: none;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  font-weight: 500;
+  -webkit-box-shadow: -1px 3px 10px 0 rgba(0,0,0,.1);
+          box-shadow: -1px 3px 10px 0 rgba(0,0,0,.1);
+  &:hover {
+    background: #009b77;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+  }
+}
+
+.button--link {
+  background: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.button--secondary {
+  background: #888;
+  margin-bottom: 10px;
+  &:hover {
+    background-color: #a50000;
+  }
+}

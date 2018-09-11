@@ -1,0 +1,92 @@
+.list-header {
+  background: $off-white;
+  color: $grey;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: $s-size $m-size;
+  margin-bottom: 10px;
+  border-bottom: 1px solid darken($off-white, 7%);
+}
+
+.list-body {
+  padding-bottom: $m-size;
+  @media (min-width: $desktop-breakpoint) {
+    padding-bottom: $l-size;
+  }
+}
+
+.list-item {
+  -webkit-box-shadow: -1px 3px 10px 0 rgba(0,0,0,.04);
+          box-shadow: -1px 3px 10px 0 rgba(0,0,0,.04);
+  border-radius: 8px;
+  color: $dark-grey;
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: $s-size;
+  text-decoration: none;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  margin-bottom: 10px;
+  &:hover {
+    -webkit-box-shadow: -1px 3px 10px 0 rgba(0,0,0,.1);
+            box-shadow: -1px 3px 10px 0 rgba(0,0,0,.1);
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+  }
+
+  @media (min-width: $desktop-breakpoint) {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding: $m-size;
+  }
+}
+
+.list-item--message {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: $grey;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: $m-size;
+  &:hover {
+    background: none;
+  }
+}
+
+.list-item__title {
+  margin: 0;
+  word-break: break-all;
+}
+
+.list-item__sub-title {
+  color: $grey;
+  font-size: $font-size-small;
+}
+
+.list-item__data {
+  margin: $s-size 0 0 0;
+  @media (min-width: $desktop-breakpoint) {
+    margin: 0;
+    padding-left: $s-size;
+  }
+}
