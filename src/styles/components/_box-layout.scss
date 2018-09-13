@@ -9,7 +9,7 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  width: 100vw;
+  width: 100%;
   background-color: $off-white;
 }
 
@@ -32,6 +32,18 @@
   min-height: 33rem;
   -webkit-box-shadow: 0 10px 40px -10px rgba(0,64,128,.2);
           box-shadow: 0 10px 40px -10px rgba(0,64,128,.2);
+}
+
+.box-layout__box--login {
+  padding: 20px 25px 0px 25px;
+}
+
+.box-layout__redirect {
+    font-size: $font-size-small;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .box-layout__title {

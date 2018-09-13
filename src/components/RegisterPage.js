@@ -95,7 +95,7 @@ class RegisterPage extends React.Component {
                 this.setState({success: res.message});
                 setTimeout(() => { 
                     this.props.history.replace('/');
-                }, 2000);
+                }, 3000);
             }
       }).catch((error) => { 
             this.setState({error: error.message});

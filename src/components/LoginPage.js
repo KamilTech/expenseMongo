@@ -2,16 +2,95 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { startLogin } from '../actions/auth';
 
-export const LoginPage = ({ startLogin }) => (
-    <div className="box-layout">
-        <div className="box-layout__box">
-            <h1 className="box-layout__title">Expensify App</h1>
-            <p>Save your expenses in one place</p>
-            <button className="button" onClick={startLogin}>Login with google</button>
-        </div>
-    </div>
-);
+class LoginPage extends React.Component {
+    state = {
+        success: '',
+        error: '',
+        username: '',
+        password: '',
+        errorUsername: '',
+        errorPassword: ''
+    }
 
+    onUsernameChange = (e) => {
+        this.setState({username: e.target.value});
+        const username = e.target.value;
+    
+        if (username.length === 0) {
+            this.setState({errorUsername: 'Username field is required'});
+        } else {
+            this.setState({errorUsername: null});
+        }
+    }
+
+    onPasswordChange = (e) => {
+        this.setState({password: e.target.value});
+        const password = e.target.value;
+    
+        if (password.length === 0) {
+            this.setState({errorPassword: 'Username field is required'});
+        } else {
+            this.setState({errorPassword: null});
+        }
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        this.props.login({
+          username: this.state.username,
+          password: this.state.password
+        }).then((res) => {
+              if (!res.success) {
+                  this.setState({error: res.message});
+              } else {
+                  this.setState({error: null});
+                  this.setState({success: res.message});
+                  setTimeout(() => { 
+                      this.props.history.replace('/dashboard');
+                  }, 2000);
+              }
+        }).catch((error) => { 
+              this.setState({error: error.message});
+        })
+    }
+    render() {
+        return (
+            <div className="box-layout">
+                <div className="box-layout__box box-layout__box--login">
+                    <h1 className="box-layout__title">Expensify App</h1>
+                    <form className="form form--register" onSubmit={this.onSubmit.bind(this)}>
+                        {this.state.error && <p className="form__error">{this.state.error}</p>}
+                        {this.state.success && <p className="form__success">{this.state.success}</p>}
+                        {this.state.errorUsername && <p className="form__error">{this.state.errorUsername}</p>}
+                        <input
+                            type="username"
+                            value={this.state.username}
+                            placeholder="Username"
+                            className={this.state.errorUsername ? "text-input text-input--error" : "text-input"}
+                            autoFocus
+                            onChange={(event) => this.onUsernameChange(event)}
+                        />
+                        {this.state.errorPassword && <p className="form__error">{this.state.errorPassword}</p>}
+                        <input
+                            type="password"
+                            value={this.state.password}
+                            placeholder="password"
+                            className={this.state.errorPassword ? "text-input text-input--error" : "text-input"}
+                            autoFocus
+                            onChange={(event) => this.onPasswordChange(event)}
+                        />
+                        <div>
+                            <button disabled={ this.state.errorUsername || this.state.errorPassword || !this.state.username || !this.state.password } className="button button--register">Login</button>
+                        </div>
+                        <div className="box-layout__redirect" onClick={() => this.props.history.push('/register')}>
+                            <a>Don 't have an account? Register here...</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        )
+    }
+}
 const mapDispatchToProps = (dispatch) => ({
     startLogin: () => dispatch(startLogin())
 });
