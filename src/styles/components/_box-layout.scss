@@ -29,7 +29,7 @@
   padding: 0px 25px 0px 25px;
   text-align: center;
   width: 28rem;
-  height: 33rem;
+  min-height: 33rem;
   -webkit-box-shadow: 0 10px 40px -10px rgba(0,64,128,.2);
           box-shadow: 0 10px 40px -10px rgba(0,64,128,.2);
 }
@@ -37,4 +37,12 @@
 .box-layout__title {
   margin: 0 0 $m-size 0;
   line-height: 1;
+}
+
+.box-layout__title--register {
+    margin-top: 30px;
+}
+
+.box-layout__box--register {
+    width: 34rem;
 }

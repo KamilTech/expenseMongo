@@ -14,3 +14,7 @@
   @extend .text-input;
   height: 10rem;
 }
+
+.text-input--error {
+  border: 1px solid $errorColor;
+}

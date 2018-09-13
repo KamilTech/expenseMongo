@@ -1,4 +1,5 @@
 .form {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -14,4 +15,15 @@
 .form__error {
   margin: 0 0 $m-size 0;
   font-style: italic;
+  color: $errorColor;
+}
+
+.form__success {
+  font-size: $font-size-large; 
+  color: #4ab419;
+}
+
+.form--register input{
+  border-radius: 8px;
+  outline: none;
 }

@@ -49,7 +49,13 @@ class RegisterPage extends React.Component {
 
   onPasswordChange = (e) => {
     const password = e.target.value;
-    this.setState({password: password});
+    this.setState({password: password}, () => {
+        if (this.state.password !== this.state.confirm) {
+            this.setState({errorConfrim: 'Password do not match'});
+        } else {
+            this.setState({errorConfrim: null});
+        }
+    });
 
     if (password.length === 0) {
         this.setState({errorPassword: 'Password field is required'});
@@ -98,46 +104,52 @@ class RegisterPage extends React.Component {
 
   render() {
     return (
-        <form className="form" onSubmit={this.onSubmit.bind(this)}>
-          {this.state.error && <p className="form__error">{this.state.error}</p>}
-          {this.state.success && <p className="form__error">{this.state.success}</p>}
-          {this.state.errorEmail && <p className="form__error">{this.state.errorEmail}</p>}
-          <input
-            type="email"
-            value={this.state.email}
-            placeholder="E-mail"
-            className="text-input"
-            autoFocus
-            onChange={(event) => this.onEmailChange(event)}
-          />
-          {this.state.errorUsername && <p className="form__error">{this.state.errorUsername}</p>}
-          <input
-            type="text"
-            value={this.state.username}
-            className="text-input"
-            placeholder="Username"
-            onChange={(event) => this.onUsernameChange(event)}
-          />
-          {this.state.errorPassword && <p className="form__error">{this.state.errorPassword}</p>}
-          <input
-            type="password"
-            value={this.state.password}
-            className="text-input"
-            placeholder="password"
-            onChange={(event) => this.onPasswordChange(event)}
-          />
-          {this.state.errorConfrim && <p className="form__error">{this.state.errorConfrim}</p>}
-          <input
-            type="password"
-            value={this.state.confirm}
-            className="text-input"
-            placeholder="confirm password"
-            onChange={(event) => this.onConfirmChange(event)}
-          />
-          <div>
-            <button className="button">Register</button>
-          </div>
-        </form>
+        <div className="box-layout">
+            <div className="box-layout__box box-layout__box--register">
+                <h1 className="box-layout__title box-layout__title--register">Register</h1>
+                <form className="form form--register" onSubmit={this.onSubmit.bind(this)}>
+                    {this.state.error && <p className="form__error">{this.state.error}</p>}
+                    {this.state.success && <p className="form__success">{this.state.success}</p>}
+                    {this.state.errorEmail && <p className="form__error">{this.state.errorEmail}</p>}
+                    <input
+                        type="email"
+                        value={this.state.email}
+                        placeholder="E-mail"
+                        className={this.state.errorEmail ? "text-input text-input--error" : "text-input"}
+                        autoFocus
+                        onChange={(event) => this.onEmailChange(event)}
+                    />
+                    {this.state.errorUsername && <p className="form__error">{this.state.errorUsername}</p>}
+                    <input
+                        type="text"
+                        value={this.state.username}
+                        className={this.state.errorUsername ? "text-input text-input--error" : "text-input"}
+                        placeholder="Username"
+                        onChange={(event) => this.onUsernameChange(event)}
+                    />
+                    {this.state.errorPassword && <p className="form__error">{this.state.errorPassword}</p>}
+                    <input
+                        type="password"
+                        value={this.state.password}
+                        className={this.state.errorPassword ? "text-input text-input--error" : "text-input"}
+                        placeholder="password"
+                        onChange={(event) => this.onPasswordChange(event)}
+                    />
+                    {this.state.errorConfrim && <p className="form__error">{this.state.errorConfrim}</p>}
+                    <input
+                        type="password"
+                        value={this.state.confirm}
+                        className={this.state.errorConfrim ? "text-input text-input--error" : "text-input"}
+                        placeholder="confirm password"
+                        onChange={(event) => this.onConfirmChange(event)}
+                    />
+                    <div>
+                        <button disabled={ this.state.errorConfrim || this.state.errorPassword || this.state.errorUsername || this.state.errorEmail || !this.state.email || !this.state.username || !this.state.password || !this.state.confirm } className="button button--register">Register</button>
+                        <a className="button button--register button--register--back" onClick={() => { this.props.history.push('/') }}>Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
       )
   }
 };

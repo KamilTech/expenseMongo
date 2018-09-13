@@ -31,6 +31,25 @@
   background: #888;
   margin-bottom: 10px;
   &:hover {
-    background-color: #a50000;
+    background-color: $errorColor;
   }
+}
+
+.button--register {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.button--register:disabled {
+  background: darken(#00a881, 20%);
+  cursor: not-allowed;
+}
+
+.button--register--back {
+  bottom: -85px;
+  font-size: $font-size-small;
+  background-color: #27253d;
+  cursor: pointer;
 }
