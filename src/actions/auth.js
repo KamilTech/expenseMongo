@@ -3,19 +3,36 @@ import axios from 'axios';
 
 const domain = "http://localhost:3000/"; // Development Domain
 
-export const login = (uid) => ({
+export const login = (token, username) => ({
     type: 'LOGIN',
-    uid
+    token,
+    username
 });
 
 export const register = (Person) => {
     return () => {
         return axios.post(`${domain}authentication/register`, Person)
-        .then(res => {
-            return res.data;
-        }).catch((error) => { 
-            throw new Error('Whoops! Some error occured... :(');
-        })
+            .then(res => {
+                return res.data;
+            }).catch((error) => { 
+                throw new Error('Whoops! Some error occured... :(');
+            })
+    }
+}
+
+export const loginMongo = (Person) => {
+    return (dispatch) => {
+        return axios.post(`${domain}authentication/login`, Person)
+            .then(res => {
+                if (res.data.success === true) {
+                    dispatch(login(res.data.token, res.data.user.username));
+                    localStorage.setItem('token', res.data.token);
+                    localStorage.setItem('user', JSON.stringify(res.data.user));
+                    return { success: res.data.success, message: res.data.message };
+                } else {
+                    return { success: res.data.success, message: res.data.message };
+                }
+            });
     }
 }
 
@@ -30,7 +47,8 @@ export const logout = () => ({
 });
 
 export const startLogout = () => {
-    return () => {
-        return firebase.auth().signOut();
+    return (dispatch) => {
+        localStorage.clear();
+        dispatch(logout());
     };
 };

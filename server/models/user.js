@@ -145,7 +145,7 @@ userSchema.pre('save', function (next) {
 
 // Methods to compare password to encrypted password upon login
 userSchema.methods.comparePassword = function(password) {
-    bcrypt.compare(password, this.password, (err, res) => err ? err : res);
+    return bcrypt.compareSync(password, this.password);
 };
 
 module.exports = mongoose.model('User', userSchema);

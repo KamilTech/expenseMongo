@@ -84,8 +84,8 @@ class RegisterPage extends React.Component {
   onSubmit = (e) => {
       e.preventDefault();
       this.props.register({
-        email: this.state.email,
-        username: this.state.username,
+        email: this.state.email.trim(),
+        username: this.state.username.trim(),
         password: this.state.password
       }).then((res) => {
             if (!res.success) {

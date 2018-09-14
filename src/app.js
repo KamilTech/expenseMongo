@@ -25,9 +25,24 @@ const renderApp = () => {
     }
 };
 
-ReactDOM.render(<LoadingPage />, document.getElementById('app'));
+const ifLogin = () => {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
 
-firebase.auth().onAuthStateChanged((user) => {
+    if (token && user && typeof user === 'object') {
+        store.dispatch(login(token, user.username));
+        renderApp();
+        if (history.location.pathname === '/') {
+            history.push('/dashboard');
+        }
+    } else {
+        renderApp();
+    }
+}
+
+ReactDOM.render(<LoadingPage />, document.getElementById('app'));
+ifLogin();
+/* firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         store.dispatch(login(user.uid));
         store.dispatch(startSetExpenses()).then(() => {
@@ -40,4 +55,4 @@ firebase.auth().onAuthStateChanged((user) => {
         store.dispatch(logout());
         renderApp();
     }
-});
+}); */

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startLogin } from '../actions/auth';
+import { loginMongo } from '../actions/auth';
 
 class LoginPage extends React.Component {
     state = {
@@ -9,7 +9,8 @@ class LoginPage extends React.Component {
         username: '',
         password: '',
         errorUsername: '',
-        errorPassword: ''
+        errorPassword: '',
+        disabled: false
     }
 
     onUsernameChange = (e) => {
@@ -19,7 +20,7 @@ class LoginPage extends React.Component {
         if (username.length === 0) {
             this.setState({errorUsername: 'Username field is required'});
         } else {
-            this.setState({errorUsername: null});
+            this.setState({errorUsername: ''});
         }
     }
 
@@ -30,28 +31,29 @@ class LoginPage extends React.Component {
         if (password.length === 0) {
             this.setState({errorPassword: 'Username field is required'});
         } else {
-            this.setState({errorPassword: null});
+            this.setState({errorPassword: ''});
         }
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
-        this.props.login({
-          username: this.state.username,
-          password: this.state.password
-        }).then((res) => {
-              if (!res.success) {
-                  this.setState({error: res.message});
-              } else {
-                  this.setState({error: null});
-                  this.setState({success: res.message});
-                  setTimeout(() => { 
-                      this.props.history.replace('/dashboard');
-                  }, 2000);
-              }
-        }).catch((error) => { 
-              this.setState({error: error.message});
-        })
+        this.setState({ disabled: true });
+        try {
+            const response = await this.props.login({
+                username: this.state.username,
+                password: this.state.password
+            });
+            if (!response.success) {
+                this.setState({ error: response.message, disabled: false });
+            } else {
+                this.setState({ error: '', success: response.message });
+                setTimeout(() => { 
+                    this.props.history.push('/dashboard');
+                }, 2000);
+            };
+         } catch(error) {
+            this.setState({error: error.message});
+         }
     }
     render() {
         return (
@@ -80,7 +82,7 @@ class LoginPage extends React.Component {
                             onChange={(event) => this.onPasswordChange(event)}
                         />
                         <div>
-                            <button disabled={ this.state.errorUsername || this.state.errorPassword || !this.state.username || !this.state.password } className="button button--register">Login</button>
+                            <button disabled={ this.state.errorUsername || this.state.errorPassword || !this.state.username || !this.state.password || this.state.disabled } className="button button--register">Login</button>
                         </div>
                         <div className="box-layout__redirect" onClick={() => this.props.history.push('/register')}>
                             <a>Don 't have an account? Register here...</a>
@@ -92,7 +94,7 @@ class LoginPage extends React.Component {
     }
 }
 const mapDispatchToProps = (dispatch) => ({
-    startLogin: () => dispatch(startLogin())
+    login: (e) => dispatch(loginMongo(e))
 });
 
 export default connect(undefined, mapDispatchToProps)(LoginPage);
