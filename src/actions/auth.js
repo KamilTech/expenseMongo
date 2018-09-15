@@ -1,4 +1,3 @@
-import { firebase, googleAuthProvider } from '../firebase/firebase';
 import axios from 'axios';
 
 const domain = "http://localhost:3000/"; // Development Domain
@@ -35,16 +34,6 @@ export const loginMongo = (Person) => {
             });
     }
 }
-
-export const startLogin = () => {
-    return () => {
-        return firebase.auth().signInWithPopup(googleAuthProvider);
-    };
-};
-
-export const logout = () => ({
-    type: 'LOGOUT'
-});
 
 export const startLogout = () => {
     return (dispatch) => {

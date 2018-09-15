@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const authentication = require('./routes/authentication')(router);
+const expenses = require('./routes/expenses')(router);
 
 // Database Connection
 mongoose.Promise = global.Promise;
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-
 app.use(bodyParser.json()); // parse application/json
 //app.use(express.static(publicPath));
 app.use('/authentication', authentication);
+app.use('/expenses', expenses);
 
 app.get('*', (req, res) => {
   //res.sendFile(path.join(publicPath, 'index.html'));
