@@ -24,7 +24,9 @@ export const loginMongo = (Person) => {
         return axios.post(`${domain}authentication/login`, Person)
             .then(res => {
                 if (res.data.success === true) {
-                    dispatch(login(res.data.token, res.data.user.username));
+                    setTimeout(() => {
+                        dispatch(login(res.data.token, res.data.user.username));
+                    }, 3000);
                     localStorage.setItem('token', res.data.token);
                     localStorage.setItem('user', JSON.stringify(res.data.user));
                     return { success: res.data.success, message: res.data.message };
@@ -34,6 +36,10 @@ export const loginMongo = (Person) => {
             });
     }
 }
+
+export const logout = () => ({
+    type: 'LOGOUT'
+});
 
 export const startLogout = () => {
     return (dispatch) => {

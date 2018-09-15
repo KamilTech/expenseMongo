@@ -43,16 +43,13 @@ class LoginPage extends React.Component {
                 username: this.state.username,
                 password: this.state.password
             });
-            if (!response.success) {
+            if (response.success === false) {
                 this.setState({ error: response.message, disabled: false });
-            } else {
+            } else if (response.success === true) {
                 this.setState({ error: '', success: response.message });
-                setTimeout(() => { 
-                    this.props.history.push('/dashboard');
-                }, 2000);
             };
          } catch(error) {
-            this.setState({error: error.message});
+                this.setState({error: error.message});
          }
     }
     render() {

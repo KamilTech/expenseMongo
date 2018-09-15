@@ -21,6 +21,10 @@ const expenseSchema = new Schema({
         type: Number,
         default: 0,
         required: true
+    },
+    whenExpense: {
+        type: Date, 
+        default: Date.now()
     }
 }, {
     timestamps: true

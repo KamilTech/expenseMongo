@@ -1,3 +1,4 @@
+const config = require('../config/database');
 const jwt = require('jsonwebtoken');
 
 module.exports = function getToken(req, res, next) {

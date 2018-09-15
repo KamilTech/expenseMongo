@@ -1,6 +1,5 @@
 const User = require('../models/user');
 const Expense = require('../models/expense');
-const config = require('../config/database');
 const getToken = require('../middleware/getToken');
 
 module.exports = (router) => {
@@ -11,16 +10,15 @@ module.exports = (router) => {
             if (!req.body.amount) {
                 res.json({ success: false, message: 'Amount of expense is required.' });
             } else {
-                const id = '5b9abfa285222216445312f7';
-                User.findOne({ _id: id }, (err, user) => {
+                User.findOne({ _id: req.decoded.userId }, (err, user) => {
                     if (err) {
                         res.json({ success: false, message: err });
                     } else {
                         if (!user) {
                             res.json({ success: false, message: 'Unable to authenticate user.' });
                         } else {
-                            const { description, note, amount } = req.body;
-                            const expense = new Expense({ description, note, amount, createdBy: user._id });
+                            const { description, note, amount, whenExpense } = req.body;
+                            const expense = new Expense({ description, note, amount, createdBy: user._id, whenExpense: new Date(whenExpense).toISOString() });
     
                             expense.save((err) => {
                                 if (err) {
@@ -40,7 +38,7 @@ module.exports = (router) => {
                                         res.json({ success: false, message: err });
                                     }
                                 } else {
-                                    res.json({ success: true, message: 'Expense saved!' });
+                                    res.json({ success: true, message: 'Expense saved!', id: expense._id });
                                 }
                             });
                         }
@@ -48,6 +46,30 @@ module.exports = (router) => {
                 });
             }
         }
+    });
+
+    router.get('/expense', getToken, (req, res) => {
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'Unable to authenticate user.' })
+                } else {
+                    Expense.find({ createdBy: user._id }, (err, expenses) => {
+                        if (err) {
+                            res.json({ success: false, message: err });
+                        } else {
+                            if (!expenses) {
+                                res.json({ success: false, message: 'expenses not found.' });
+                            } else {
+                                res.json({ success: true, expenses: expenses });
+                            }
+                        }
+                    });
+                }
+            }
+        });
     });
 
     return router;
