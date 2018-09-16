@@ -13,7 +13,7 @@ export default (state = expensesReducerDefaultState, action) => {
       return state.filter(({ id }) => id !== action.id);
     case 'EDIT_EXPENSE':
       return state.map((expense) => {
-        if (expense.id === action.updates.id) {
+        if (expense._id === action.updates._id) {
           return {
             ...expense,
             ...action.updates

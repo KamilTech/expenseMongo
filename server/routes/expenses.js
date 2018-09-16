@@ -38,7 +38,7 @@ module.exports = (router) => {
                                         res.json({ success: false, message: err });
                                     }
                                 } else {
-                                    res.json({ success: true, message: 'Expense saved!', id: expense._id });
+                                    res.json({ success: true, message: 'Expense saved!', expense: expense });
                                 }
                             });
                         }
@@ -93,8 +93,7 @@ module.exports = (router) => {
                                     if (err) {
                                         res.json({ success: false, message: err });
                                     } else {
-                                        const { _id, description, note, amount, whenExpense  } = updatedExpense;
-                                        res.json({ success: true, message: 'Expense Updated!', expense: { id: _id, description, note, amount, whenExpense  } });
+                                        res.json({ success: true, message: 'Expense Updated!', expense: updatedExpense});
                                     }
                                 });
                             }

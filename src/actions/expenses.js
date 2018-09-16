@@ -23,10 +23,7 @@ export const startAddExpense = (expenseData = {}) => {
         return axios.post(`${domain}expenses/expense`, expense,  {"headers": headers()})
                 .then(res => {
                     if (res.data.success === true) {
-                        dispatch(addExpense({
-                            id: res.data.id,
-                            ...expense
-                        }));
+                        dispatch(addExpense(res.data.expense));
                         return res.data.message;
                     } else {
                         return res.data.message;
