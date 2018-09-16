@@ -31,6 +31,7 @@ const ifLogin = () => {
 
     if (token && user && typeof user === 'object') {
         store.dispatch(login(token, user.username));
+        store.dispatch(startSetExpenses());
         renderApp();
         if (history.location.pathname === '/') {
             history.push('/dashboard');

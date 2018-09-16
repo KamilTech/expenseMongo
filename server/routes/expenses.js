@@ -72,6 +72,39 @@ module.exports = (router) => {
         });
     });
 
+    router.put('/expense', getToken, (req, res) => { 
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'Unable to authenticate user.' })
+                } else {
+                    Expense.findById(req.body.id, (err, expense) => {
+                        if (err) {
+                            res.json({ success: false, message: err });
+                        } else {
+                            if (!expense) {
+                                res.json({ success: false, message: 'expenses not found.' });
+                            } else {
+                                const { description, note, amount, whenExpense } = req.body;
+                                expense.set({ description, note, amount, whenExpense });
+                                expense.save((err, updatedExpense) => {
+                                    if (err) {
+                                        res.json({ success: false, message: err });
+                                    } else {
+                                        const { _id, description, note, amount, whenExpense  } = updatedExpense;
+                                        res.json({ success: true, message: 'Expense Updated!', expense: { id: _id, description, note, amount, whenExpense  } });
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    });
+
     return router;
 }
 

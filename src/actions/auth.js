@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { startSetExpenses } from '../actions/expenses';
 const domain = "http://localhost:3000/"; // Development Domain
 
 export const login = (token, username) => ({
@@ -25,6 +25,7 @@ export const loginMongo = (Person) => {
             .then(res => {
                 if (res.data.success === true) {
                     setTimeout(() => {
+                        dispatch(startSetExpenses());
                         dispatch(login(res.data.token, res.data.user.username));
                     }, 3000);
                     localStorage.setItem('token', res.data.token);

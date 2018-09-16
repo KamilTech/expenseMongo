@@ -33,23 +33,30 @@ export const startAddExpense = (expenseData = {}) => {
                     }
                 }).catch((error) => { 
                     throw new Error(error);
-                })
+                });
     };
 };
 
 // EDIT_EXPENSE
-export const editExpense = (id, updates) => ({
+export const editExpense = (updates) => ({
     type: 'EDIT_EXPENSE',
-    id,
     updates
 });
 
 export const startEditExpense = (id, updates) => {
-    return (dispatch, getState) => {
-        const uid = getState().auth.uid;
-        return database.ref(`users/${uid}/expenses/${id}`).update(updates).then(() => {
-            dispatch(editExpense(id, updates));
-        });
+    return (dispatch) => {
+        const expense = {
+            id,
+            ...updates
+        };
+        return axios.put(`${domain}expenses/expense`, expense,  {"headers": headers()})
+                .then(res => {
+                    if (res.data.success === true) {
+                        dispatch(editExpense(res.data.expense));
+                    }
+                }).catch((error) => { 
+                    throw new Error(error);
+                });
     };
 };
 
@@ -76,7 +83,7 @@ export const setExpense = (expenses) => ({
 
 export const startSetExpenses = () => {
     return (dispatch) => {
-        return axios.get(`${domain}expenses/expense`, expense, { headers: headers })
+        return axios.get(`${domain}expenses/expense`, {"headers": headers()})
                 .then(res => {
                     if (res.data.success === true) {
                         dispatch(setExpense(res.data.expenses));
