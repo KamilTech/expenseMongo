@@ -58,17 +58,21 @@ export const startEditExpense = (id, updates) => {
 };
 
 // REMOVE_EXPENSE
-export const removeExpense = ({ id } = {}) => ({
+export const removeExpense = (id) => ({
     type: 'REMOVE_EXPENSE',
     id
 });
 
 export const startRemoveExpense = ({id} = {}) => {
-    return (dispatch, getState) => {
-        const uid = getState().auth.uid;
-        return database.ref(`users/${uid}/expenses/${id}`).remove().then(() => {
-            dispatch(removeExpense({id}));
-        });
+    return (dispatch) => {
+        return axios.delete(`${domain}expenses/expense/${id}`,  {"headers": headers()})
+                .then(res => {
+                    if (res.data.success === true) {
+                        dispatch(removeExpense(res.data.id));
+                    }
+                }).catch((error) => { 
+                    throw new Error(error);
+                });
     };
 };
 

@@ -18,7 +18,6 @@ const ExpenseList = (props) => (
                 </div>
                 ) : (
                     props.expenses.map((expense) => {
-                        console.log(expense);
                     return <ExpenseListItem key={expense._id} {...expense} />;
                     })
                 )

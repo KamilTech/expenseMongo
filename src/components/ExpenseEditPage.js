@@ -20,7 +20,7 @@ const ExpenseEditPage = (props) => {
             }}
           />
           <button className="button button--secondary" onClick={() => {
-            props.dispatch(startRemoveExpense({ id: props.expense.id }));
+            props.dispatch(startRemoveExpense({ id: props.expense._id }));
             props.history.push('/');
           }}>Remove Expense</button>
         </div>
