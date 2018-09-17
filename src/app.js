@@ -7,7 +7,6 @@ import { startSetExpenses } from './actions/expenses';
 import { login, logout } from './actions/auth';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
-import { firebase } from './firebase/firebase';
 import LoadingPage from './components/LoadingPage';
 
 const store = configureStore();
@@ -25,7 +24,7 @@ const renderApp = () => {
     }
 };
 
-const ifLogin = () => {
+const startApp = () => {
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -37,23 +36,10 @@ const ifLogin = () => {
             history.push('/dashboard');
         }
     } else {
+        store.dispatch(logout());
         renderApp();
     }
 }
 
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
-ifLogin();
-/* firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        store.dispatch(login(user.uid));
-        store.dispatch(startSetExpenses()).then(() => {
-            renderApp();
-            if (history.location.pathname === '/') {
-                history.push('/dashboard');
-            }
-        });
-    } else {
-        store.dispatch(logout());
-        renderApp();
-    }
-}); */
+startApp();

@@ -23,7 +23,9 @@ export const PrivateRoute = ({
 
 const mapStateToProps = (state) => ({
     isAuthenticated: (() => {
-        if (state.auth.token) {
+        const token = localStorage.getItem('token');
+        
+        if (state.auth.token && token) {
             const decoded = jwtDecode(state.auth.token);
             return decoded.exp < new Date().getTime();
         } else {

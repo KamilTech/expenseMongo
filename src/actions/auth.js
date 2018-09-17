@@ -1,13 +1,9 @@
 import axios from 'axios';
 import { startSetExpenses } from '../actions/expenses';
+
 const domain = "http://localhost:3000/"; // Development Domain
 
-export const login = (token, username) => ({
-    type: 'LOGIN',
-    token,
-    username
-});
-
+// REGISTER
 export const register = (Person) => {
     return () => {
         return axios.post(`${domain}authentication/register`, Person)
@@ -18,6 +14,13 @@ export const register = (Person) => {
             })
     }
 }
+
+// LOGIN
+export const login = (token, username) => ({
+    type: 'LOGIN',
+    token,
+    username
+});
 
 export const loginMongo = (Person) => {
     return (dispatch) => {
@@ -38,6 +41,7 @@ export const loginMongo = (Person) => {
     }
 }
 
+// LOGOUT
 export const logout = () => ({
     type: 'LOGOUT'
 });

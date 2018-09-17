@@ -1,4 +1,3 @@
-import database from '../firebase/firebase';
 import headers from './headers';
 import axios from 'axios';
 
