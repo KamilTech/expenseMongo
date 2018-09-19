@@ -16,7 +16,8 @@ class RegisterPage extends React.Component {
     confirm: '',
     regExpEmail: new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
     regExpUsername: new RegExp(/^[a-zA-Z0-9]+$/),
-    regExpPassword: new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/)
+    regExpPassword: new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/),
+    disabled: false
   };
 
   onEmailChange = (e) => {
@@ -83,22 +84,22 @@ class RegisterPage extends React.Component {
 
   onSubmit = (e) => {
       e.preventDefault();
+      this.setState({ disabled: true });
       this.props.register({
         email: this.state.email.trim(),
         username: this.state.username.trim(),
         password: this.state.password
       }).then((res) => {
             if (!res.success) {
-                this.setState({error: res.message});
+                this.setState({ error: res.message, disabled: false });
             } else {
-                this.setState({error: null});
-                this.setState({success: res.message});
+                this.setState({ error: null, success: res.message });
                 setTimeout(() => { 
                     this.props.history.replace('/');
                 }, 3000);
             }
       }).catch((error) => { 
-            this.setState({error: error.message});
+            this.setState({ error: error.message, disabled: false });
       })
   }
 
@@ -144,7 +145,7 @@ class RegisterPage extends React.Component {
                         onChange={(event) => this.onConfirmChange(event)}
                     />
                     <div>
-                        <button disabled={ this.state.errorConfrim || this.state.errorPassword || this.state.errorUsername || this.state.errorEmail || !this.state.email || !this.state.username || !this.state.password || !this.state.confirm } className="button button--register">Register</button>
+                        <button disabled={ this.state.disabled || this.state.errorConfrim || this.state.errorPassword || this.state.errorUsername || this.state.errorEmail || !this.state.email || !this.state.username || !this.state.password || !this.state.confirm } className="button button--register">Register</button>
                         <a className="button button--register button--register--back" onClick={() => { this.props.history.push('/') }}>Back</a>
                     </div>
                 </form>
